@@ -59,29 +59,30 @@ export function Nav() {
           <Link href="/login" className="hidden rounded-full px-4 py-2 text-sm font-semibold text-text/85 transition hover:bg-white/10 hover:text-white sm:block">
             Sign in
           </Link>
-          <Link href="/dashboard" className="btn btn-primary !px-4 !py-2.5 text-sm sm:!px-5">
-            <span className="sm:hidden">Dashboard</span>
-            <span className="hidden sm:inline">Open dashboard</span>
-          </Link>
           <button
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
+            aria-controls="nav-menu"
             onClick={() => setMenuOpen((open) => !open)}
-            className="grid size-11 place-items-center rounded-full transition hover:bg-white/10 lg:hidden"
+            className="grid size-11 place-items-center rounded-full transition hover:bg-white/10"
           >
             {menuOpen ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
           </button>
         </div>
 
         <ul
-          id="mobile-menu"
+          id="nav-menu"
           data-open={menuOpen}
-          className="pop glass glass-strong absolute inset-x-0 top-full mt-2 rounded-3xl p-2 lg:hidden"
+          className="pop glass glass-strong absolute inset-x-0 top-full mt-2 rounded-3xl p-2 lg:inset-x-auto lg:right-0 lg:w-72"
         >
+          <li>
+            <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="btn btn-primary mb-1 w-full">
+              Dashboard
+            </Link>
+          </li>
           {NAV_LINKS.map((link) => (
-            <li key={link.href}>
+            <li key={link.href} className="lg:hidden">
               <Link
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
@@ -95,7 +96,7 @@ export function Nav() {
               </Link>
             </li>
           ))}
-          <li>
+          <li className="sm:hidden">
             <Link href="/login" onClick={() => setMenuOpen(false)} className="block rounded-2xl px-4 py-3.5 font-semibold text-text/90 transition hover:bg-white/10">
               Sign in
             </Link>

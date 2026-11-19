@@ -31,11 +31,14 @@ export function Hero() {
           <p data-reveal data-hero className="mt-4 max-w-xl text-base leading-relaxed text-muted">
             Register your bank details once. We check them as you type, keep your account number masked and show you every refund from request to payout.
           </p>
-          <div data-reveal data-hero className="mt-6 flex flex-wrap gap-3">
-            <Link href="/dashboard/bank" className="btn btn-primary">
-              Add bank details <ArrowRight size={18} aria-hidden />
+          <div data-reveal data-hero className="mt-6 flex flex-row flex-nowrap items-center gap-3">
+            <Link href="/dashboard/bank" className="btn btn-primary max-sm:flex-1 max-sm:!px-3 max-sm:text-sm">
+              Add bank details <ArrowRight size={18} aria-hidden className="max-sm:hidden" />
             </Link>
-            <a href="#devices" className="btn btn-ghost">See it on every screen</a>
+            <a href="#devices" className="btn btn-ghost max-sm:flex-1 max-sm:!px-3 max-sm:text-sm">
+              <span className="sm:hidden">See screens</span>
+              <span className="hidden sm:inline">See it on every screen</span>
+            </a>
           </div>
         </div>
 
