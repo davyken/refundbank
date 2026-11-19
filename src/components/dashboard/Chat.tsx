@@ -3,7 +3,7 @@
 import { Send } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { getAgentReply } from "@/lib/data/chat";
-import { demoChat } from "@/lib/data/demo";
+import { buildDemoChat } from "@/lib/data/demo";
 import type { ChatMessage } from "@/lib/data/types";
 import { clsx } from "clsx";
 
@@ -13,8 +13,14 @@ const now = () => new Date().toISOString();
 const timeLabel = (iso: string) =>
   new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit" }).format(new Date(iso));
 
-export function Chat({ replyDelay = 900 }: { replyDelay?: number }) {
-  const [messages, setMessages] = useState<ChatMessage[]>(demoChat);
+interface ChatProps {
+  replyDelay?: number;
+  firstName?: string;
+  className?: string;
+}
+
+export function Chat({ replyDelay = 900, firstName = "there", className = "h-[min(34rem,calc(100svh-14rem))] min-h-[24rem]" }: ChatProps) {
+  const [messages, setMessages] = useState<ChatMessage[]>(() => buildDemoChat(firstName));
   const [draft, setDraft] = useState("");
   const [typing, setTyping] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
@@ -46,7 +52,7 @@ export function Chat({ replyDelay = 900 }: { replyDelay?: number }) {
   };
 
   return (
-    <div className="glass flex h-[min(34rem,calc(100svh-14rem))] min-h-[24rem] flex-col rounded-3xl">
+    <div className={clsx("glass flex flex-col rounded-[2rem]", className)}>
       <div className="flex items-center gap-3 border-b border-white/10 px-5 py-4">
         <span className="relative grid size-10 place-items-center rounded-full bg-mint/20 font-bold text-mint">
           N
@@ -86,7 +92,7 @@ export function Chat({ replyDelay = 900 }: { replyDelay?: number }) {
       </div>
 
       <div className="border-t border-white/10 p-3 sm:p-4">
-        <div className="mb-3 flex gap-2 overflow-x-auto pb-1" data-lenis-prevent>
+        <div className="mb-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-lenis-prevent>
           {SUGGESTIONS.map((suggestion) => (
             <button key={suggestion} type="button" onClick={() => send(suggestion)} className="shrink-0 rounded-full border border-white/10 px-3 py-1.5 text-xs text-text/80 transition hover:border-mint/50 hover:text-white">
               {suggestion}

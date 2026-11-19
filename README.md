@@ -36,17 +36,19 @@ src/
       page.tsx               home (hero, facts, features, devices)
       why-it-matters/ features/ devices/ security/ faq/   one page per navbar link
       legal/notice|privacy|terms|cookies/                 legal pages linked from the footer
-    dashboard/               overview, refunds, bank details, messages
+    (auth)/login, register   full-screen auth pages that never scroll
+    dashboard/               overview (with chat), refunds, bank details, messages; guarded by a session
     icon.svg, apple-icon.png favicon (same artwork as the Logo component)
   components/
     ui/                      Select (animated dropdown), DatePicker, Intro, Logo, ScrollProgress, ScrollToTop
     landing/                 Nav, Hero, Marquee, Why, Features, Devices, Steps, Security, Faq, Cta, Footer, LandingMotion
-    dashboard/               BankForm, RefundList, Chat, NotificationsMenu, DashboardNav
+    auth/                    AuthShell, LoginForm, RegisterForm
+    dashboard/               DashboardShell (guard), Sidebar, BankForm, RefundList, Chat, NotificationsMenu
   lib/
     validation/              bank schema, IBAN/SWIFT helpers
     format/                  masking, currency
     data/                    demo data + repository interface
-  hooks/                     useReducedMotion, useBankDetails, useRefunds
+  hooks/                     useReducedMotion, useSession, useBankDetails, useRefunds
 ```
 
 Rules: small single purpose components, logic in `lib/` (pure and tested), no logic in JSX. Data access goes through a repository interface so swapping demo data for the API changes one file.
@@ -87,6 +89,10 @@ Unit tests for validation, masking, formatting, the repository, the Select and t
 6. [x] Dashboard pages and chat
 7. [x] Test pass, lint, production build
 8. [ ] Backend integration (later): replace the demo repository
+
+## Demo authentication
+
+Sign in or register at `/login` and `/register`. Any valid email and a password of 8 or more characters works (registration needs a letter and a digit). Only the name and email are kept, in the browser's local storage, and passwords are never stored. `lib/auth/session.ts` is the seam to replace with the real backend. The dashboard redirects signed out visitors to `/login`.
 
 ## Styling notes
 

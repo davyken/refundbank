@@ -3,14 +3,16 @@
 import { AlertCircle, ArrowRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
+import { Chat } from "@/components/dashboard/Chat";
 import { RefundList } from "@/components/dashboard/RefundList";
+import { useUser } from "@/components/dashboard/SessionContext";
 import { useBankDetails } from "@/hooks/useBankDetails";
 import { useRefunds } from "@/hooks/useRefunds";
-import { demoUser } from "@/lib/data/demo";
 import { filterRefunds, summarizeRefunds } from "@/lib/data/summary";
 import { formatCurrency, maskAccountNumber } from "@/lib/format";
 
 export default function OverviewPage() {
+  const user = useUser();
   const { refunds } = useRefunds();
   const { details, loading } = useBankDetails();
   const summary = useMemo(() => summarizeRefunds(refunds), [refunds]);
@@ -19,7 +21,7 @@ export default function OverviewPage() {
   return (
     <div className="space-y-10">
       <div className="rise">
-        <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Hello, {demoUser.name.split(" ")[0]}</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Hello, {user.name.split(" ")[0]}</h1>
         <p className="mt-2 text-muted">Here is where your refunds stand today.</p>
       </div>
 
@@ -56,17 +58,29 @@ export default function OverviewPage() {
         </div>
       </section>
 
-      <section style={{ "--i": 5 } as React.CSSProperties} className="rise">
-        <div className="flex items-end justify-between">
-          <h2 className="text-xl font-bold">Recent refunds</h2>
-          <Link href="/dashboard/refunds" className="flex items-center gap-1 text-sm text-mint hover:underline">
-            View all <ArrowRight size={14} aria-hidden />
-          </Link>
-        </div>
-        <div className="mt-2">
-          <RefundList refunds={recent} />
-        </div>
-      </section>
+      <div className="grid gap-8 xl:grid-cols-[1fr_24rem]">
+        <section style={{ "--i": 5 } as React.CSSProperties} className="rise">
+          <div className="flex items-end justify-between">
+            <h2 className="text-xl font-bold">Recent refunds</h2>
+            <Link href="/dashboard/refunds" className="flex items-center gap-1 text-sm text-mint hover:underline">
+              View all <ArrowRight size={14} aria-hidden />
+            </Link>
+          </div>
+          <div className="mt-2">
+            <RefundList refunds={recent} />
+          </div>
+        </section>
+
+        <section aria-label="Support chat" style={{ "--i": 6 } as React.CSSProperties} className="rise">
+          <div className="mb-3 flex items-end justify-between">
+            <h2 className="text-xl font-bold">Chat with support</h2>
+            <Link href="/dashboard/messages" className="flex items-center gap-1 text-sm text-mint hover:underline">
+              Open full chat <ArrowRight size={14} aria-hidden />
+            </Link>
+          </div>
+          <Chat firstName={user.name.split(" ")[0]} className="h-[32rem]" />
+        </section>
+      </div>
     </div>
   );
 }

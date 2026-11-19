@@ -62,11 +62,11 @@ export const demoRefunds: Refund[] = [
   },
 ];
 
-export const demoChat: ChatMessage[] = [
+export const buildDemoChat = (firstName: string): ChatMessage[] => [
   {
     id: "m1",
     author: "agent",
-    text: "Hi Alex, I'm Noor from Refund Bank support. Ask me about a refund or your bank details.",
+    text: `Hi ${firstName}, I'm Noor from Refund Bank support. Ask me about a refund or your bank details.`,
     at: "2026-11-19T09:00:00",
   },
 ];

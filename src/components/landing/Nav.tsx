@@ -55,7 +55,10 @@ export function Nav() {
           ))}
         </ul>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
+          <Link href="/login" className="hidden rounded-full px-4 py-2 text-sm font-semibold text-text/85 transition hover:bg-white/10 hover:text-white sm:block">
+            Sign in
+          </Link>
           <Link href="/dashboard" className="btn btn-primary !px-4 !py-2.5 text-sm sm:!px-5">
             <span className="sm:hidden">Dashboard</span>
             <span className="hidden sm:inline">Open dashboard</span>
@@ -92,6 +95,16 @@ export function Nav() {
               </Link>
             </li>
           ))}
+          <li>
+            <Link href="/login" onClick={() => setMenuOpen(false)} className="block rounded-2xl px-4 py-3.5 font-semibold text-text/90 transition hover:bg-white/10">
+              Sign in
+            </Link>
+          </li>
+          <li>
+            <Link href="/register" onClick={() => setMenuOpen(false)} className="block rounded-2xl px-4 py-3.5 font-semibold text-mint transition hover:bg-white/10">
+              Create account
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
